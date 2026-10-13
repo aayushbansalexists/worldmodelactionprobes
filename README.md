@@ -1,7 +1,6 @@
 # Supplementary code
 
 Code for the submission "Can We Check Whether a World Model Follows Actions Without a Simulator?".
-This copy is anonymized for double blind review.
 
 The paper asks whether probes that score a world model's response to actions, without running a
 simulator, notice when that response points the wrong way. The code measures the true response with
