@@ -1,0 +1,67 @@
+data:
+  source: libero
+  suite: [spatial, object, goal, long]
+  obs_mode: lowdim
+  obs_keys: [robot0_proprio-state, object-state]
+  action_key: actions
+  seq_len: 16
+  pred_horizon: 1
+  num_workers: 2
+  pin_memory: false
+  image_size: 64
+
+model:
+  obs_dim: 0
+  action_dim: 0
+  hidden_dim: 128
+  n_tokens: 1
+  backbone:
+    type: transformer
+    n_layers: 4
+    n_heads: 4
+    dropout: 0.0
+    max_len: 64
+  encoder:
+    type: linear
+  decoder:
+    type: linear
+
+injector:
+  R: vector
+  F: add
+  T: step
+  W: every_block
+  W_every_k: 2
+  chunk_size: 4
+  grouped_size: 4
+  param_match_scale: 1.0
+
+train:
+  steps: 5000
+  batch_size: 64
+  accum: 1
+  lr: 3.0e-4
+  weight_decay: 1.0e-2
+  warmup_steps: 200
+  grad_clip: 1.0
+  amp: true
+  grad_checkpoint: false
+  seed: 0
+  log_every: 50
+  val_every: 250
+  ckpt_every: 0
+
+eval:
+  horizons: [1, 4, 8, 16]
+  ctrl:
+    mask_rates: [0.0, 0.25, 0.5, 0.75]
+    noise_levels: [0.0, 0.1, 0.5, 1.0]
+  n_val_seqs: 256
+  n_test_seqs: 256
+
+run:
+  id: base
+  out_root: ${RESULTS_ROOT}/raw
+  device: cuda
+  save_ckpt: true
+  overfit: 0

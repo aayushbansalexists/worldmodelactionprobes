@@ -1,0 +1,21 @@
+base: base.yaml
+
+model:
+  hidden_dim: 128
+  n_tokens: 1
+  backbone:
+    n_layers: 4
+    n_heads: 4
+
+train:
+  steps: 5000
+  batch_size: 64
+  amp: true
+
+eval:
+  n_val_seqs: 256
+  n_test_seqs: 256
+
+run:
+  id: small
+  device: cuda

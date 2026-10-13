@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wmprobe"
+version = "0.4.0"
+description = "Direction and size audits for action conditioned world models, and the matched probe."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Anonymous authors"}]
+requires-python = ">=3.9"
+dependencies = ["torch", "numpy"]
+
+[tool.setuptools]
+packages = ["wmprobe"]
+

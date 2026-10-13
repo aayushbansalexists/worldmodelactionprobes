@@ -1,0 +1,52 @@
+cf_add_derange_s0 --steps 5000 --seed 0 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s0 --steps 5000 --seed 0 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s0 --steps 5000 --seed 0 --action-blind
+cf_delta_derange_s0 --steps 5000 --seed 0 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s0 --steps 5000 --seed 0 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s0 --steps 5000 --seed 0 --delta-prediction --action-blind
+cf_idm01_causal_s0 --steps 5000 --seed 0 --inverse-dynamics 0.01
+cf_idm001_causal_s0 --steps 5000 --seed 0 --inverse-dynamics 0.001
+cf_add_derange_s1 --steps 5000 --seed 1 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s1 --steps 5000 --seed 1 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s1 --steps 5000 --seed 1 --action-blind
+cf_delta_derange_s1 --steps 5000 --seed 1 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s1 --steps 5000 --seed 1 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s1 --steps 5000 --seed 1 --delta-prediction --action-blind
+cf_idm01_causal_s1 --steps 5000 --seed 1 --inverse-dynamics 0.01
+cf_idm001_causal_s1 --steps 5000 --seed 1 --inverse-dynamics 0.001
+cf_add_derange_s2 --steps 5000 --seed 2 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s2 --steps 5000 --seed 2 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s2 --steps 5000 --seed 2 --action-blind
+cf_delta_derange_s2 --steps 5000 --seed 2 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s2 --steps 5000 --seed 2 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s2 --steps 5000 --seed 2 --delta-prediction --action-blind
+cf_idm01_causal_s2 --steps 5000 --seed 2 --inverse-dynamics 0.01
+cf_idm001_causal_s2 --steps 5000 --seed 2 --inverse-dynamics 0.001
+cf_add_derange_s3 --steps 5000 --seed 3 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s3 --steps 5000 --seed 3 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s3 --steps 5000 --seed 3 --action-blind
+cf_delta_derange_s3 --steps 5000 --seed 3 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s3 --steps 5000 --seed 3 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s3 --steps 5000 --seed 3 --delta-prediction --action-blind
+cf_idm01_causal_s3 --steps 5000 --seed 3 --inverse-dynamics 0.01
+cf_idm001_causal_s3 --steps 5000 --seed 3 --inverse-dynamics 0.001
+cf_add_derange_s4 --steps 5000 --seed 4 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s4 --steps 5000 --seed 4 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s4 --steps 5000 --seed 4 --action-blind
+cf_delta_derange_s4 --steps 5000 --seed 4 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s4 --steps 5000 --seed 4 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s4 --steps 5000 --seed 4 --delta-prediction --action-blind
+cf_idm01_causal_s4 --steps 5000 --seed 4 --inverse-dynamics 0.01
+cf_idm001_causal_s4 --steps 5000 --seed 4 --inverse-dynamics 0.001
+cf_add_st500_s0 --steps 500 --seed 0
+cf_add_st1500_s0 --steps 1500 --seed 0
+cf_delta_st500_s0 --steps 500 --seed 0 --delta-prediction
+cf_delta_st1500_s0 --steps 1500 --seed 0 --delta-prediction
+cf_add_st500_s1 --steps 500 --seed 1
+cf_add_st1500_s1 --steps 1500 --seed 1
+cf_delta_st500_s1 --steps 500 --seed 1 --delta-prediction
+cf_delta_st1500_s1 --steps 1500 --seed 1 --delta-prediction
+cf_add_st500_s2 --steps 500 --seed 2
+cf_add_st1500_s2 --steps 1500 --seed 2
+cf_delta_st500_s2 --steps 500 --seed 2 --delta-prediction
+cf_delta_st1500_s2 --steps 1500 --seed 2 --delta-prediction
