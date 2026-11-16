@@ -1,5 +1,6 @@
 import WamProofs
 import PaperResults
+import AdditionalResults
 open WamProofs
 #print axioms risk_gap
 #print axioms blind_never_beats
@@ -70,3 +71,8 @@ open WamProofs
 #print axioms appD_reflection_cov
 #print axioms appD_rotation_det
 #print axioms appD_consistency
+#print axioms cosSim_add_noise
+#print axioms norm_add_sq_of_inner_zero
+#print axioms noise_factor_sq
+#print axioms cosSim_noisy_reference
+#print axioms resamples_of_six_objectives

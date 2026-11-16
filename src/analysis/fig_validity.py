@@ -21,6 +21,11 @@ TAG = os.environ.get("GT_TAG", "v3")
 
 BLUE, ORANGE, AQUA, RED = "#2a78d6", "#eb6834", "#1baf7a", "#e34948"
 MID, INK, INK2, GRID = "#f0efec", "#0b0b0b", "#52514e", "#e4e3df"
+SIM, BLUE_LIGHT, BLUE_DARK = INK, "#dbe8f8", "#123e75"
+if os.environ.get("FIG_PALETTE"):
+    _p = json.load(open(os.environ["FIG_PALETTE"]))
+    BLUE, ORANGE, AQUA, RED, SIM = (_p["colors"][k] for k in ("BLUE", "ORANGE", "AQUA", "RED", "SIM"))
+    BLUE_LIGHT, BLUE_DARK = _p["derived"]["BLUE_LIGHT"], _p["derived"]["BLUE_DARK"]
 plt.rcParams.update({
     "font.family": "DejaVu Sans", "font.size": 8.5, "axes.titlesize": 9,
     "axes.labelsize": 8.5, "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 7.5,
@@ -77,8 +82,13 @@ def fig_verdicts():
     ax.grid(False)
     for i in range(len(rows)):
         for j in range(len(TRANSFORMS)):
-            ax.text(j, i, txt[i][j], ha="center", va="center", fontsize=7.8,
-                    color="white" if abs(M[i, j]) > 0.6 else INK)
+            col = "white" if abs(M[i, j]) > 0.6 else INK
+            if os.environ.get("FIG_PALETTE"):
+                lum = lambda c: sum(w * (x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4)
+                                    for w, x in zip((0.2126, 0.7152, 0.0722), c[:3]))
+                cell = lum(cmap((M[i, j] + 1) / 2))
+                col = "white" if 1.05 / (cell + 0.05) >= (cell + 0.05) / (lum((11 / 255,) * 3) + 0.05) else INK
+            ax.text(j, i, txt[i][j], ha="center", va="center", fontsize=7.8, color=col)
     ax.set_xticks(range(len(TRANSFORMS)))
     ax.set_xticklabels([TLABEL[t] for t in TRANSFORMS])
     ax.set_yticks(range(len(rows)))

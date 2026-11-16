@@ -1,0 +1,40 @@
+cf_add_causal_s0 --seed 0
+cf_agm_causal_s0 --seed 0 --agm-weight 0.5
+cf_idm_causal_s0 --seed 0 --inverse-dynamics 1.0
+cf_delta_causal_s0 --seed 0 --delta-prediction
+cf_idm01_causal_s0 --seed 0 --inverse-dynamics 0.01
+cf_idm001_causal_s0 --seed 0 --inverse-dynamics 0.001
+cf_add_causal_s1 --seed 1
+cf_agm_causal_s1 --seed 1 --agm-weight 0.5
+cf_idm_causal_s1 --seed 1 --inverse-dynamics 1.0
+cf_delta_causal_s1 --seed 1 --delta-prediction
+cf_idm01_causal_s1 --seed 1 --inverse-dynamics 0.01
+cf_idm001_causal_s1 --seed 1 --inverse-dynamics 0.001
+cf_add_causal_s2 --seed 2
+cf_agm_causal_s2 --seed 2 --agm-weight 0.5
+cf_idm_causal_s2 --seed 2 --inverse-dynamics 1.0
+cf_delta_causal_s2 --seed 2 --delta-prediction
+cf_idm01_causal_s2 --seed 2 --inverse-dynamics 0.01
+cf_idm001_causal_s2 --seed 2 --inverse-dynamics 0.001
+cf_add_causal_s3 --seed 3
+cf_agm_causal_s3 --seed 3 --agm-weight 0.5
+cf_idm_causal_s3 --seed 3 --inverse-dynamics 1.0
+cf_delta_causal_s3 --seed 3 --delta-prediction
+cf_idm01_causal_s3 --seed 3 --inverse-dynamics 0.01
+cf_idm001_causal_s3 --seed 3 --inverse-dynamics 0.001
+cf_add_causal_s4 --seed 4
+cf_agm_causal_s4 --seed 4 --agm-weight 0.5
+cf_idm_causal_s4 --seed 4 --inverse-dynamics 1.0
+cf_delta_causal_s4 --seed 4 --delta-prediction
+cf_idm01_causal_s4 --seed 4 --inverse-dynamics 0.01
+cf_idm001_causal_s4 --seed 4 --inverse-dynamics 0.001
+cf_act1_causal_s0 --seed 0 --action-contrastive 0.1 --ac-temperature 0.001
+cf_md01_causal_s0 --seed 0 --matched-direction 0.01
+cf_act1_causal_s1 --seed 1 --action-contrastive 0.1 --ac-temperature 0.001
+cf_md01_causal_s1 --seed 1 --matched-direction 0.01
+cf_act1_causal_s2 --seed 2 --action-contrastive 0.1 --ac-temperature 0.001
+cf_md01_causal_s2 --seed 2 --matched-direction 0.01
+cf_act1_causal_s3 --seed 3 --action-contrastive 0.1 --ac-temperature 0.001
+cf_md01_causal_s3 --seed 3 --matched-direction 0.01
+cf_act1_causal_s4 --seed 4 --action-contrastive 0.1 --ac-temperature 0.001
+cf_md01_causal_s4 --seed 4 --matched-direction 0.01

@@ -1,0 +1,152 @@
+cf_add_causal_s0 --seed 0
+cf_agm_causal_s0 --seed 0 --agm-weight 0.5
+cf_idm_causal_s0 --seed 0 --inverse-dynamics 1.0
+cf_delta_causal_s0 --seed 0 --delta-prediction
+cf_idm01_causal_s0 --seed 0 --inverse-dynamics 0.01
+cf_idm001_causal_s0 --seed 0 --inverse-dynamics 0.001
+cf_add_causal_s1 --seed 1
+cf_agm_causal_s1 --seed 1 --agm-weight 0.5
+cf_idm_causal_s1 --seed 1 --inverse-dynamics 1.0
+cf_delta_causal_s1 --seed 1 --delta-prediction
+cf_idm01_causal_s1 --seed 1 --inverse-dynamics 0.01
+cf_idm001_causal_s1 --seed 1 --inverse-dynamics 0.001
+cf_add_causal_s2 --seed 2
+cf_agm_causal_s2 --seed 2 --agm-weight 0.5
+cf_idm_causal_s2 --seed 2 --inverse-dynamics 1.0
+cf_delta_causal_s2 --seed 2 --delta-prediction
+cf_idm01_causal_s2 --seed 2 --inverse-dynamics 0.01
+cf_idm001_causal_s2 --seed 2 --inverse-dynamics 0.001
+cf_add_causal_s3 --seed 3
+cf_agm_causal_s3 --seed 3 --agm-weight 0.5
+cf_idm_causal_s3 --seed 3 --inverse-dynamics 1.0
+cf_delta_causal_s3 --seed 3 --delta-prediction
+cf_idm01_causal_s3 --seed 3 --inverse-dynamics 0.01
+cf_idm001_causal_s3 --seed 3 --inverse-dynamics 0.001
+cf_add_causal_s4 --seed 4
+cf_agm_causal_s4 --seed 4 --agm-weight 0.5
+cf_idm_causal_s4 --seed 4 --inverse-dynamics 1.0
+cf_delta_causal_s4 --seed 4 --delta-prediction
+cf_idm01_causal_s4 --seed 4 --inverse-dynamics 0.01
+cf_idm001_causal_s4 --seed 4 --inverse-dynamics 0.001
+cf_add_shuf_s0 --seed 0 --shuffle-actions
+cf_agm_shuf_s0 --seed 0 --shuffle-actions --agm-weight 0.5
+cf_idm_shuf_s0 --seed 0 --shuffle-actions --inverse-dynamics 1.0
+cf_delta_shuf_s0 --seed 0 --shuffle-actions --delta-prediction
+cf_add_derange_s0 --seed 0 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s0 --seed 0 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s0 --seed 0 --action-blind
+cf_delta_derange_s0 --seed 0 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s0 --seed 0 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s0 --seed 0 --delta-prediction --action-blind
+cf_md001_causal_s0 --seed 0 --matched-direction 0.001
+cf_md01_causal_s0 --seed 0 --matched-direction 0.01
+cf_md1_causal_s0 --seed 0 --matched-direction 0.1
+cf_mdrand01_causal_s0 --seed 0 --matched-direction 0.01 --md-partner random
+cf_mdshuf01_causal_s0 --seed 0 --matched-direction 0.01 --md-shuffle
+cf_imp01_causal_s0 --seed 0 --md-impute 0.1
+cf_imp1_causal_s0 --seed 0 --md-impute 1.0
+cf_act01_causal_s0 --seed 0 --action-contrastive 0.01 --ac-temperature 0.001
+cf_act1_causal_s0 --seed 0 --action-contrastive 0.1 --ac-temperature 0.001
+cf_act001_causal_s0 --seed 0 --action-contrastive 0.001 --ac-temperature 0.001
+cf_act003_causal_s0 --seed 0 --action-contrastive 0.003 --ac-temperature 0.001
+cf_act01t2_causal_s0 --seed 0 --action-contrastive 0.01 --ac-temperature 0.01
+cf_add_shuf_s1 --seed 1 --shuffle-actions
+cf_agm_shuf_s1 --seed 1 --shuffle-actions --agm-weight 0.5
+cf_idm_shuf_s1 --seed 1 --shuffle-actions --inverse-dynamics 1.0
+cf_delta_shuf_s1 --seed 1 --shuffle-actions --delta-prediction
+cf_add_derange_s1 --seed 1 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s1 --seed 1 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s1 --seed 1 --action-blind
+cf_delta_derange_s1 --seed 1 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s1 --seed 1 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s1 --seed 1 --delta-prediction --action-blind
+cf_md001_causal_s1 --seed 1 --matched-direction 0.001
+cf_md01_causal_s1 --seed 1 --matched-direction 0.01
+cf_md1_causal_s1 --seed 1 --matched-direction 0.1
+cf_mdrand01_causal_s1 --seed 1 --matched-direction 0.01 --md-partner random
+cf_mdshuf01_causal_s1 --seed 1 --matched-direction 0.01 --md-shuffle
+cf_imp01_causal_s1 --seed 1 --md-impute 0.1
+cf_imp1_causal_s1 --seed 1 --md-impute 1.0
+cf_act01_causal_s1 --seed 1 --action-contrastive 0.01 --ac-temperature 0.001
+cf_act1_causal_s1 --seed 1 --action-contrastive 0.1 --ac-temperature 0.001
+cf_act001_causal_s1 --seed 1 --action-contrastive 0.001 --ac-temperature 0.001
+cf_act003_causal_s1 --seed 1 --action-contrastive 0.003 --ac-temperature 0.001
+cf_act01t2_causal_s1 --seed 1 --action-contrastive 0.01 --ac-temperature 0.01
+cf_add_shuf_s2 --seed 2 --shuffle-actions
+cf_agm_shuf_s2 --seed 2 --shuffle-actions --agm-weight 0.5
+cf_idm_shuf_s2 --seed 2 --shuffle-actions --inverse-dynamics 1.0
+cf_delta_shuf_s2 --seed 2 --shuffle-actions --delta-prediction
+cf_add_derange_s2 --seed 2 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s2 --seed 2 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s2 --seed 2 --action-blind
+cf_delta_derange_s2 --seed 2 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s2 --seed 2 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s2 --seed 2 --delta-prediction --action-blind
+cf_md001_causal_s2 --seed 2 --matched-direction 0.001
+cf_md01_causal_s2 --seed 2 --matched-direction 0.01
+cf_md1_causal_s2 --seed 2 --matched-direction 0.1
+cf_mdrand01_causal_s2 --seed 2 --matched-direction 0.01 --md-partner random
+cf_mdshuf01_causal_s2 --seed 2 --matched-direction 0.01 --md-shuffle
+cf_imp01_causal_s2 --seed 2 --md-impute 0.1
+cf_imp1_causal_s2 --seed 2 --md-impute 1.0
+cf_act01_causal_s2 --seed 2 --action-contrastive 0.01 --ac-temperature 0.001
+cf_act1_causal_s2 --seed 2 --action-contrastive 0.1 --ac-temperature 0.001
+cf_act001_causal_s2 --seed 2 --action-contrastive 0.001 --ac-temperature 0.001
+cf_act003_causal_s2 --seed 2 --action-contrastive 0.003 --ac-temperature 0.001
+cf_act01t2_causal_s2 --seed 2 --action-contrastive 0.01 --ac-temperature 0.01
+cf_add_shuf_s3 --seed 3 --shuffle-actions
+cf_agm_shuf_s3 --seed 3 --shuffle-actions --agm-weight 0.5
+cf_idm_shuf_s3 --seed 3 --shuffle-actions --inverse-dynamics 1.0
+cf_delta_shuf_s3 --seed 3 --shuffle-actions --delta-prediction
+cf_add_derange_s3 --seed 3 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s3 --seed 3 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s3 --seed 3 --action-blind
+cf_delta_derange_s3 --seed 3 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s3 --seed 3 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s3 --seed 3 --delta-prediction --action-blind
+cf_md001_causal_s3 --seed 3 --matched-direction 0.001
+cf_md01_causal_s3 --seed 3 --matched-direction 0.01
+cf_md1_causal_s3 --seed 3 --matched-direction 0.1
+cf_mdrand01_causal_s3 --seed 3 --matched-direction 0.01 --md-partner random
+cf_mdshuf01_causal_s3 --seed 3 --matched-direction 0.01 --md-shuffle
+cf_imp01_causal_s3 --seed 3 --md-impute 0.1
+cf_imp1_causal_s3 --seed 3 --md-impute 1.0
+cf_act01_causal_s3 --seed 3 --action-contrastive 0.01 --ac-temperature 0.001
+cf_act1_causal_s3 --seed 3 --action-contrastive 0.1 --ac-temperature 0.001
+cf_act001_causal_s3 --seed 3 --action-contrastive 0.001 --ac-temperature 0.001
+cf_act003_causal_s3 --seed 3 --action-contrastive 0.003 --ac-temperature 0.001
+cf_act01t2_causal_s3 --seed 3 --action-contrastive 0.01 --ac-temperature 0.01
+cf_add_shuf_s4 --seed 4 --shuffle-actions
+cf_agm_shuf_s4 --seed 4 --shuffle-actions --agm-weight 0.5
+cf_idm_shuf_s4 --seed 4 --shuffle-actions --inverse-dynamics 1.0
+cf_delta_shuf_s4 --seed 4 --shuffle-actions --delta-prediction
+cf_add_derange_s4 --seed 4 --shuffle-actions --shuffle-mode derangement
+cf_add_tstep_s4 --seed 4 --shuffle-actions --shuffle-mode timestep
+cf_add_blind_s4 --seed 4 --action-blind
+cf_delta_derange_s4 --seed 4 --delta-prediction --shuffle-actions --shuffle-mode derangement
+cf_delta_tstep_s4 --seed 4 --delta-prediction --shuffle-actions --shuffle-mode timestep
+cf_delta_blind_s4 --seed 4 --delta-prediction --action-blind
+cf_md001_causal_s4 --seed 4 --matched-direction 0.001
+cf_md01_causal_s4 --seed 4 --matched-direction 0.01
+cf_md1_causal_s4 --seed 4 --matched-direction 0.1
+cf_mdrand01_causal_s4 --seed 4 --matched-direction 0.01 --md-partner random
+cf_mdshuf01_causal_s4 --seed 4 --matched-direction 0.01 --md-shuffle
+cf_imp01_causal_s4 --seed 4 --md-impute 0.1
+cf_imp1_causal_s4 --seed 4 --md-impute 1.0
+cf_act01_causal_s4 --seed 4 --action-contrastive 0.01 --ac-temperature 0.001
+cf_act1_causal_s4 --seed 4 --action-contrastive 0.1 --ac-temperature 0.001
+cf_act001_causal_s4 --seed 4 --action-contrastive 0.001 --ac-temperature 0.001
+cf_act003_causal_s4 --seed 4 --action-contrastive 0.003 --ac-temperature 0.001
+cf_act01t2_causal_s4 --seed 4 --action-contrastive 0.01 --ac-temperature 0.01
+cf_add_st500_s0 --seed 0 --steps 500
+cf_add_st1500_s0 --seed 0 --steps 1500
+cf_delta_st500_s0 --seed 0 --delta-prediction --steps 500
+cf_delta_st1500_s0 --seed 0 --delta-prediction --steps 1500
+cf_add_st500_s1 --seed 1 --steps 500
+cf_add_st1500_s1 --seed 1 --steps 1500
+cf_delta_st500_s1 --seed 1 --delta-prediction --steps 500
+cf_delta_st1500_s1 --seed 1 --delta-prediction --steps 1500
+cf_add_st500_s2 --seed 2 --steps 500
+cf_add_st1500_s2 --seed 2 --steps 1500
+cf_delta_st500_s2 --seed 2 --delta-prediction --steps 500
+cf_delta_st1500_s2 --seed 2 --delta-prediction --steps 1500

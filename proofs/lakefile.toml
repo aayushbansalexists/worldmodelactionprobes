@@ -1,5 +1,5 @@
 name = "WamProofs"
-defaultTargets = ["WamProofs", "PaperResults"]
+defaultTargets = ["WamProofs", "PaperResults", "AdditionalResults"]
 
 [[require]]
 name = "mathlib"
@@ -11,3 +11,6 @@ name = "WamProofs"
 
 [[lean_lib]]
 name = "PaperResults"
+
+[[lean_lib]]
+name = "AdditionalResults"

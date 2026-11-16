@@ -41,7 +41,7 @@ def train_inverse(dr, nz, device, seed=0, epochs=30):
     sp = json.load(open(dr / "splits" / "libero_splits.json"))
     Xt, Yt, At = [t.to(device) for t in transitions(lo, sp["train"], nz)]
     Xv, Yv, Av = [t.to(device) for t in transitions(lo, sp["val"], nz)]
-    g = Inverse().to(device)
+    g = Inverse(obs_dim=Xt.shape[-1], act_dim=At.shape[-1]).to(device)
     opt = torch.optim.AdamW(g.parameters(), 1e-3, weight_decay=1e-4)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, epochs)
     gen = torch.Generator(device="cpu").manual_seed(seed)

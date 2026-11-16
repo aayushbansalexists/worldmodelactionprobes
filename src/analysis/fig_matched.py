@@ -19,6 +19,11 @@ TAG = os.environ.get("GT_TAG", "v3")
 
 BLUE, ORANGE, AQUA, RED = "#2a78d6", "#eb6834", "#1baf7a", "#e34948"
 MID, INK, INK2, GRID, GRAY = "#f0efec", "#0b0b0b", "#52514e", "#e4e3df", "#9a988f"
+SIM, BLUE_LIGHT, BLUE_DARK = INK, "#dbe8f8", "#123e75"
+if os.environ.get("FIG_PALETTE"):
+    _p = json.load(open(os.environ["FIG_PALETTE"]))
+    BLUE, ORANGE, AQUA, RED, SIM = (_p["colors"][k] for k in ("BLUE", "ORANGE", "AQUA", "RED", "SIM"))
+    BLUE_LIGHT, BLUE_DARK = _p["derived"]["BLUE_LIGHT"], _p["derived"]["BLUE_DARK"]
 plt.rcParams.update({
     "font.family": "DejaVu Sans", "font.size": 8.5, "axes.titlesize": 9,
     "axes.labelsize": 8.5, "xtick.labelsize": 7.5, "ytick.labelsize": 7.5, "legend.fontsize": 7.5,
@@ -71,11 +76,11 @@ def fig_eef3d(run="cf_add_causal_s0", n_items=3):
         true_e = eff(xm[i] - xt[i])
         model_e = eff(Pj[i] - Pi[i])
         refl_e = -model_e
-        ax.plot(*true_e.T, color=INK, lw=2.0, label="simulator")
+        ax.plot(*true_e.T, color=SIM, lw=2.0, label="simulator")
         ax.plot(*model_e.T, color=BLUE, lw=2.0, label="trained model")
         ax.plot(*refl_e.T, color=ORANGE, lw=2.0, ls=(0, (3, 1.6)),
                 label="trained model, reflected")
-        for X, col in [(true_e, INK), (model_e, BLUE), (refl_e, ORANGE)]:
+        for X, col in [(true_e, SIM), (model_e, BLUE), (refl_e, ORANGE)]:
             ax.scatter(*X[-1], color=col, s=12, depthshade=False)
         ax.scatter(0, 0, 0, color=GRAY, s=16, depthshade=False)
         allp = np.vstack([true_e, model_e, refl_e])
@@ -111,7 +116,7 @@ def fig_landscape():
     TH, LS = np.meshgrid(th, ls, indexing="ij")
     g = {k: np.array(v) for k, v in L["mean"].items()}
     div = LinearSegmentedColormap.from_list("div", [RED, MID, BLUE])
-    seq = LinearSegmentedColormap.from_list("seq", ["#dbe8f8", BLUE, "#123e75"])
+    seq = LinearSegmentedColormap.from_list("seq", [BLUE_LIGHT, BLUE, BLUE_DARK])
     panels = [
         ("dir", "truth: direction under\nrandom perturbations", div, (-1, 1)),
         ("dir_on", "truth: direction under\nlogged action swaps", div, (-1, 1)),

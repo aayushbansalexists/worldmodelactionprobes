@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import os
 
-os.environ["MUJOCO_GL"] = "glx"
+_GL = os.environ.get("WAM_GL", "glx")
+os.environ["MUJOCO_GL"] = _GL
 
 import mujoco
 from robosuite.utils import binding_utils
 
-assert binding_utils.GLContext.__name__ == "GLFWGLContext", (
-    f"expected the GLFW context, got {binding_utils.GLContext.__name__}; "
+_WANT = "EGLGLContext" if _GL == "egl" else "GLFWGLContext"
+assert binding_utils.GLContext.__name__ == _WANT, (
+    f"expected {_WANT}, got {binding_utils.GLContext.__name__}; "
     "EGL/OSMesa have no working device on WSL2"
 )
 
