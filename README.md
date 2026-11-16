@@ -108,7 +108,7 @@ machine with 8 GB of RAM.
 Every table script writes LaTeX to `tables/` and prints the numbers the text quotes. `GT_TAG`
 selects the ground truth version, and the paper uses `v3`.
 
-## Additional experiments (Appendix S)
+## Additional experiments (Appendices S to Z)
 
 Run from `src/`. The image feature models and the video world model were run on GPUs with 48 GB of
 memory. The scripts in `additional/` read and write `results/additional/`, and results computed
@@ -116,20 +116,20 @@ elsewhere go to `results/additional/server/`.
 
 | paper | commands |
 |---|---|
-| contrastive loss at smaller weights (Table 21) | `bash scripts/sweep_ac_small.sh`, then `python -m analysis.direction_training` |
-| images and features (Appendix S.1) | `WAM_GL=egl python -m eval.render_libero demos --out <frames>`, `WAM_GL=egl python -m eval.render_libero items --out <frames>`, `python -m analysis.encode_dino --inp <frames> --out <features>`, then `python -m analysis.build_img_root base --src data --feat <features> --dst <image root>` and the same with `pairs` and `matched` |
-| image feature models (Tables 17 to 21) | `additional/jobs/img_jobs.txt` and `additional/jobs/scale_jobs.txt` give one run per line as run id and flags. Train each with `DATA_ROOT=<image root> python train.py --config configs/small.yaml --R vector --F add --T step --W every_block --steps 5000 --run-id <id> <flags>`. The larger sizes use `configs/img_medium.yaml` and `configs/img_large.yaml` without `--steps`. Score with `python -m analysis.probe_validity_gpu --tag v3 --runs <ids>`, `GT_TAG=v3 python -m analysis.matched_study_gpu` and `GT_TAG=v3 python -m analysis.inverse_probe_gpu`, with `DATA_ROOT`, `RESULTS_ROOT` and `CHECKPOINT_ROOT` set to the image folders |
+| contrastive loss at smaller weights (Table 20) | `bash scripts/sweep_ac_small.sh`, then `python -m analysis.direction_training` |
+| images and features (Appendix T) | `WAM_GL=egl python -m eval.render_libero demos --out <frames>`, `WAM_GL=egl python -m eval.render_libero items --out <frames>`, `python -m analysis.encode_dino --inp <frames> --out <features>`, then `python -m analysis.build_img_root base --src data --feat <features> --dst <image root>` and the same with `pairs` and `matched` |
+| image feature models (lower part of Table 2, Tables 17 to 20) | `additional/jobs/img_jobs.txt` and `additional/jobs/scale_jobs.txt` give one run per line as run id and flags. Train each with `DATA_ROOT=<image root> python train.py --config configs/small.yaml --R vector --F add --T step --W every_block --steps 5000 --run-id <id> <flags>`. The larger sizes use `configs/img_medium.yaml` and `configs/img_large.yaml` without `--steps`. Score with `python -m analysis.probe_validity_gpu --tag v3 --runs <ids>`, `GT_TAG=v3 python -m analysis.matched_study_gpu` and `GT_TAG=v3 python -m analysis.inverse_probe_gpu`, with `DATA_ROOT`, `RESULTS_ROOT` and `CHECKPOINT_ROOT` set to the image folders |
 | A2World (Tables 22 and 23, Figure 10) | `python -m eval.a2world_items prepare --feat <features> --out items.npz`, `python -m eval.a2world_items truth --items items.npz --out <truth>`, in the environment of A2World `python eval/a2world_probe.py --items items.npz --out pred.npz --checkpoint a2world-libero.pt --a2world <A2World>/world_model`, then `python -m analysis.a2world_analysis --a2w <folder> --normalizer <image root>/processed/latents/normalizer.npz --out results/additional/server/a2world_results.json`. Seeds: `python additional/a2world_seeds_items.py items.npz items_seeds.npz` and `python additional/a2world_seeds.py <folder> results/additional/server/a2world_seeds.json`. Figure 10: `python additional/a2world_frames.py <folder> <a2world_results.json> results/additional/a2world_frames.npz`, then `python additional/fig_sim_frames.py figures` |
 | inverse check for the training study models and with a weaker inverse model (Tables 24 and 25) | `python additional/inverse_extra.py`, `python additional/inverse_strength.py` |
 | pairs by state distance and action difference (Table 26) | `python additional/pairs.py results/additional` |
 | worse pairs (Table 27) | `python additional/stress_matched.py`, then `python additional/stress_matched_seeds.py` |
-| size normalized retrieval (Table 28) | `python additional/sizenorm_retrieval.py results/additional` |
-| control with the 90 trained models (Tables 30 to 32) | `bash additional/run_closed_loop_hard.sh` |
-| direction under planner like action changes (Table 29) | `python -m eval.counterfactual_plan --k 3`, `python additional/dplan.py`, `python additional/dplan_eef.py`, `python additional/inverse_plan.py` |
-| the lag between simulator branches (Appendices E and S.1) | `python additional/lag_check.py`, `python additional/img_lag_check.py <image root>/processed/counterfactual results/additional/server/img_lag_check.json` |
-| Tables 17 to 32 | `python additional/make_tables.py` |
+| size normalized retrieval (Table 21) | `python additional/sizenorm_retrieval.py results/additional` |
+| control with the 90 trained models (Tables 29 to 31) | `bash additional/run_closed_loop_hard.sh` |
+| direction under planner like action changes (Table 28) | `python -m eval.counterfactual_plan --k 3`, `python additional/dplan.py`, `python additional/dplan_eef.py`, `python additional/inverse_plan.py` |
+| the lag between simulator branches (Appendices E and T) | `python additional/lag_check.py`, `python additional/img_lag_check.py <image root>/processed/counterfactual results/additional/server/img_lag_check.json` |
+| the lower part of Table 2 and Tables 17 to 31 | `python additional/make_tables.py` |
 | figure colours | `python analysis/make_palette.py --out figures/palette.json`, then set `FIG_PALETTE=figures/palette.json` for the figure scripts |
-| identities used in Appendix S | `proofs/AdditionalResults.lean`, built and axiom checked with the other proofs |
+| identities used in Appendices S, T and V | `proofs/AdditionalResults.lean`, built and axiom checked with the other proofs |
 
 ## License
 
