@@ -124,6 +124,7 @@ elsewhere go to `results/additional/server/`.
 | pairs by state distance and action difference (Table 26) | `python additional/pairs.py results/additional` |
 | worse pairs (Table 27) | `python additional/stress_matched.py`, then `python additional/stress_matched_seeds.py` |
 | size normalized retrieval (Table 21) | `python additional/sizenorm_retrieval.py results/additional` |
+| size normalized retrieval as a baseline (lower part of Table 2, Tables 17, 24 and 28) | `python additional/sizenorm_retrieval_study.py results/additional` for the 60 models of the training study, and for the image feature models `DATA_ROOT=<image root> python additional/sizenorm_retrieval_img.py results/additional/server/sizenorm_img_20261118.json 1.2M=<results>:<checkpoints> 5.5M=<results>:<checkpoints> 26.8M=<results>:<checkpoints>` |
 | control with the 90 trained models (Tables 29 to 31) | `bash additional/run_closed_loop_hard.sh` |
 | direction under planner like action changes (Table 28) | `python -m eval.counterfactual_plan --k 3`, `python additional/dplan.py`, `python additional/dplan_eef.py`, `python additional/inverse_plan.py` |
 | the lag between simulator branches (Appendices E and T) | `python additional/lag_check.py`, `python additional/img_lag_check.py <image root>/processed/counterfactual results/additional/server/img_lag_check.json` |

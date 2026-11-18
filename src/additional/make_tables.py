@@ -80,13 +80,18 @@ for r, v in ipx["models"].items():
     PM[r]["ic"] = v["identity"]["inv_dir_swap"]
 assert all(PM[r]["ic"] is not None for r in PM)
 assert max(abs(ms[r]["identity"]["dir_on"] - ms[r]["identity"]["dir_on_k1"]) for r in ms) == 0
+SN92 = json.load(open(RR / "sizenorm_retrieval.json"))
+SN60 = json.load(open(RR / "sizenorm_retrieval_study.json"))
+assert SN60["c"] == SN92["c"]
+for r in PM:
+    PM[r]["sn"] = -(SN92["per_model"][r]["identity"] if r in SN92["per_model"] else SN60["per_model"][r])
 PS = subsets(PM)
 assert [len(PS[k]) for k in ("30", "40", "55", "65", "90")] == [30, 40, 55, 65, 90]
 g = lambda k: (lambda r: PM[r][k])
 prop = {}
 for s in ("30", "55", "65", "90"):
-    probes = {"matched": g("matched"), "ret": g("ret"), "val": g("val"), "ic": g("ic")}
-    prop[s] = boot(PS[s], probes, g("Dlog"), leads=[("matched", "ret"), ("matched", "val"), ("matched", "ic")])
+    probes = {"matched": g("matched"), "ret": g("ret"), "val": g("val"), "ic": g("ic"), "sn": g("sn")}
+    prop[s] = boot(PS[s], probes, g("Dlog"), leads=[("matched", "ret"), ("matched", "val"), ("matched", "ic"), ("matched", "sn")])
 N["proprio_validity"] = {s: {k: num(v) for k, v in prop[s].items()} for s in prop}
 N["proprio_n_objectives"] = {s: len({obj(r) for r in PS[s]}) for s in PS}
 fam = lambda r: next((f for f in ("act", "md", "imp", "idm") if obj(r).startswith(f)), obj(r))
@@ -104,6 +109,7 @@ for size, folder in (("1.2M", "img"), ("5.5M", "img_medium"), ("26.8M", "img_lar
     IMG[size] = dict(pv=ipv, mi=imi, val=ival, ip=iip)
     causal = sorted(r for r in ipv if r.split("_")[2] == "causal")
     IMG[size]["sets"] = subsets(causal) if len(causal) == 90 else {"30": [r for r in causal if obj(r) in ORD]}
+SNI = json.load(open(RR / "server" / "sizenorm_img_20261118.json"))
 assert len(IMG["1.2M"]["sets"]["90"]) == 90 and len(IMG["5.5M"]["sets"]["30"]) == 30 and len(IMG["26.8M"]["sets"]["30"]) == 30
 
 
@@ -113,18 +119,18 @@ def ig(size, key, t="identity"):
             "D": lambda r: I["pv"][r][t]["direction"], "ret": lambda r: -I["pv"][r][t]["ret_gauss_meanrank"],
             "ret_real": lambda r: -I["pv"][r][t]["ret_marg_meanrank"], "C1": lambda r: I["pv"][r][t]["C1"],
             "task1": lambda r: I["pv"][r][t]["task1"], "val": lambda r: -I["val"][r],
-            "ic": lambda r: I["ip"][r][t]["inv_dir_swap"]}[key]
+            "ic": lambda r: I["ip"][r][t]["inv_dir_swap"], "sn": lambda r: -SNI[size]["per_model"][r]}[key]
 
 
 img = {}
 for s in ("30", "55", "65", "90"):
-    probes = {k: ig("1.2M", k) for k in ("matched", "ret", "ret_real", "C1", "task1", "ic", "val")}
-    img[s] = boot(IMG["1.2M"]["sets"][s], probes, ig("1.2M", "Dlog"), leads=[("matched", "ret"), ("matched", "ic"), ("matched", "val")])
+    probes = {k: ig("1.2M", k) for k in ("matched", "ret", "ret_real", "C1", "task1", "ic", "val", "sn")}
+    img[s] = boot(IMG["1.2M"]["sets"][s], probes, ig("1.2M", "Dlog"), leads=[("matched", "ret"), ("matched", "ic"), ("matched", "val"), ("matched", "sn")])
 for size in ("5.5M", "26.8M"):
-    keys = ("matched", "ret", "C1", "val") + (("ic",) if IMG[size]["ip"] is not None else ())
+    keys = ("matched", "ret", "C1", "val", "sn") + (("ic",) if IMG[size]["ip"] is not None else ())
     probes = {k: ig(size, k) for k in keys}
     img[f"30_{size}"] = boot(IMG[size]["sets"]["30"], probes, ig(size, "Dlog"),
-                             leads=[("matched", "ret"), ("matched", "val")] + ([("matched", "ic")] if "ic" in keys else []))
+                             leads=[("matched", "ret"), ("matched", "val"), ("matched", "sn")] + ([("matched", "ic")] if "ic" in keys else []))
 N["image_validity"] = {s: {k: num(v) for k, v in img[s].items()} for s in img}
 N["image_n_objectives"] = {s: len({obj(r) for r in IMG["1.2M"]["sets"][s]}) for s in ("30", "55", "65", "90")}
 
@@ -135,21 +141,21 @@ rows = [("LIBERO, proprioception", "0.8M", "30 ordinary", prop["30"], True),
         ("", "", "all 90 trained", img["90"], True),
         ("", "5.5M", "30 ordinary", img["30_5.5M"], True),
         ("", "26.8M", "30 ordinary", img["30_26.8M"], True)]
-L = [r"\begin{tabular}{lllrrrrc}", r"\toprule",
-     r"inputs & params & models & matched probe & retrieval & inverse check & val.\ error & matched minus retrieval \\",
+L = [r"\begin{tabular}{lllrrrrrc}", r"\toprule",
+     r"inputs & params & models & matched probe & retrieval & size norm.\ retrieval & inverse check & val.\ error & matched minus retrieval \\",
      r"\midrule"]
 for i, (a, b, c, v, has_ic) in enumerate(rows):
     if i == 3:
         L.append(r"\midrule")
     icv = f2(v["ic"][0]) if has_ic and "ic" in v else ""
-    L.append(f"{a} & {b} & {c} & {f2(v['matched'][0])} & {f2(v['ret'][0])} & {icv} & {f2(v['val'][0])} & "
+    L.append(f"{a} & {b} & {c} & {f2(v['matched'][0])} & {f2(v['ret'][0])} & {f2(v['sn'][0])} & {icv} & {f2(v['val'][0])} & "
              f"{ci(v['matched-ret'])} \\\\")
 L += [r"\bottomrule", r"\end{tabular}"]
 write("extra_main.tex", L)
 
 names = [("matched", "matched probe (ours)"), ("ic", "inverse model, direction"), ("ret", "retrieval"),
-         ("ret_real", "retrieval, real negatives"), ("C1", "zero action divergence"), ("task1", "WSP Task 1"),
-         ("val", "validation error"), ("matched-ret", "matched minus retrieval"), ("matched-ic", "matched minus inverse"),
+         ("ret_real", "retrieval, real negatives"), ("sn", "size normalized retrieval"), ("C1", "zero action divergence"), ("task1", "WSP Task 1"),
+         ("val", "validation error"), ("matched-ret", "matched minus retrieval"), ("matched-sn", "matched minus size normalized retrieval"), ("matched-ic", "matched minus inverse"),
          ("matched-val", "matched minus validation error")]
 L = [r"\begin{tabular}{lcccc}", r"\toprule",
      r"probe & 30 ordinary & 55 working & 65 without contrastive & all 90 \\", r"\midrule"]
@@ -162,8 +168,8 @@ write("extra_img_ci.tex", L)
 
 L = [r"\begin{tabular}{lcccc}", r"\toprule",
      r"probe & 30 ordinary & 55 working & 65 without contrastive & all 90 \\", r"\midrule"]
-for k, lab in (("matched", "matched probe (ours)"), ("ic", "inverse model, direction"), ("ret", "retrieval"), ("val", "validation error"),
-               ("matched-ret", "matched minus retrieval"), ("matched-ic", "matched minus inverse"), ("matched-val", "matched minus validation error")):
+for k, lab in (("matched", "matched probe (ours)"), ("ic", "inverse model, direction"), ("ret", "retrieval"), ("sn", "size normalized retrieval"), ("val", "validation error"),
+               ("matched-ret", "matched minus retrieval"), ("matched-sn", "matched minus size normalized retrieval"), ("matched-ic", "matched minus inverse"), ("matched-val", "matched minus validation error")):
     if k == "matched-ret":
         L.append(r"\midrule")
     L.append(lab + " & " + " & ".join(ci(prop[s][k]) for s in ("30", "55", "65", "90")) + r" \\")
@@ -439,10 +445,11 @@ IP = json.load(open(RR / "inverse_plan.json"))
 assert sorted(IP) == sorted(DP)
 for r in DP:
     DP[r]["ic_plan"] = IP[r]
+    DP[r]["sn"] = PM[r]["sn"]
 PSETS = ("30", "55", "65")
-PRED = ("D", "Dlog", "matched", "ic_plan", "ret", "val")
+PRED = ("D", "Dlog", "matched", "ic_plan", "ret", "sn", "val")
 dpl = {s: boot(PS[s], {k: dg(k) for k in PRED}, dg("Dplan"),
-               leads=[("Dlog", "D"), ("matched", "ret"), ("ic_plan", "matched"), ("ic_plan", "ret")]) for s in PSETS}
+               leads=[("Dlog", "D"), ("matched", "ret"), ("ic_plan", "matched"), ("ic_plan", "ret"), ("matched", "sn")]) for s in PSETS}
 N["dplan"] = {s: {k: num(v) for k, v in dpl[s].items()} for s in dpl}
 N["dplan_mean_15"] = float(np.mean([DP[r]["Dplan"] for r in PS["30"] if obj(r) in ("add", "agm", "delta")]))
 DE = json.load(open(RR / "dplan_eef.json"))
@@ -450,14 +457,14 @@ assert max(abs(DE[r]["Dplan_full"] - DP[r]["Dplan"]) for r in DP) < 1e-9
 for r in DP:
     DP[r]["Dplan_eef"] = DE[r]["Dplan_eef"]
 dpe = {s: boot(PS[s], {k: dg(k) for k in PRED}, dg("Dplan_eef"),
-               leads=[("Dlog", "D"), ("matched", "ret"), ("ic_plan", "matched"), ("ic_plan", "ret")]) for s in PSETS}
+               leads=[("Dlog", "D"), ("matched", "ret"), ("ic_plan", "matched"), ("ic_plan", "ret"), ("matched", "sn")]) for s in PSETS}
 N["dplan_eef"] = {s: {k: num(v) for k, v in dpe[s].items()} for s in dpe}
 N["dplan_eef_mean_15"] = float(np.mean([DP[r]["Dplan_eef"] for r in PS["30"] if obj(r) in ("add", "agm", "delta")]))
 N["dplan_full_vs_eef"] = {s: float(spearmanr([DP[r]["Dplan"] for r in PS[s]], [DP[r]["Dplan_eef"] for r in PS[s]])[0]) for s in ("30", "65", "90")}
 N["ic_plan_mean_15"] = float(np.mean([DP[r]["ic_plan"] for r in PS["30"] if obj(r) in ("add", "agm", "delta")]))
 LAB = (("D", "D random (simulator)"), ("Dlog", "D logged (simulator)"), ("matched", "matched probe"),
-       ("ic_plan", "inverse check on the planner changes"), ("ret", "retrieval"), ("val", "validation error"),
-       ("Dlog-D", "D logged minus D random"), ("matched-ret", "matched minus retrieval"),
+       ("ic_plan", "inverse check on the planner changes"), ("ret", "retrieval"), ("sn", "size normalized retrieval"), ("val", "validation error"),
+       ("Dlog-D", "D logged minus D random"), ("matched-ret", "matched minus retrieval"), ("matched-sn", "matched minus size normalized retrieval"),
        ("ic_plan-matched", "inverse check minus matched"), ("ic_plan-ret", "inverse check minus retrieval"))
 L = [r"\begin{tabular}{lccc}", r"\toprule",
      r"predictor of D planner & 30 ordinary & 55 working & 65 without contrastive \\", r"\midrule",
